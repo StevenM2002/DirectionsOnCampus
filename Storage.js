@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 {frontlogTasks: [id, id2, id3]}
 {tasks: [Task, Task]}
 {taskMaxId: int}
+{completedTasks: [id, id2, id3]}
 Task: {
   id: int
   title: string
@@ -38,17 +39,6 @@ const storage = {
   clear: async () => {
     try {
       await AsyncStorage.clear();
-      async function defaultStorage() {
-        const backlog = await storage.getItem('backlogTasks');
-        const frontlog = await storage.getItem('frontlogTasks');
-        const tasks = await storage.getItem('tasks');
-        const maxId = await storage.getItem('taskMaxId');
-        if (backlog === null) await storage.setItem('backlogTasks', []);
-        if (frontlog === null) await storage.setItem('frontlogTasks', []);
-        if (tasks === null) await storage.setItem('tasks', []);
-        if (maxId === null) await storage.setItem('taskMaxId', 0);
-      };
-      await defaultStorage();
     } catch (e) {
       throw e;
     }

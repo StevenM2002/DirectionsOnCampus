@@ -21,13 +21,9 @@ import TasksHomePage from './src/TasksHomePage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import storage from './Storage';
-import asyncStorage from '@react-native-async-storage/async-storage/src/AsyncStorage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import BacklogPage from './src/BacklogPage';
-import MyTextInput from './src/MyTextInput';
-import MyButton from './src/MyButton';
 import MyHeader from './src/MyHeader';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
 async function defaultStorage() {
@@ -35,6 +31,7 @@ async function defaultStorage() {
   const frontlog = await storage.getItem('frontlogTasks');
   const tasks = await storage.getItem('tasks');
   const maxId = await storage.getItem('taskMaxId');
+  const completed = await storage.getItem('completedTasks');
   if (backlog === null) {
     await storage.setItem('backlogTasks', []);
   }
@@ -46,6 +43,9 @@ async function defaultStorage() {
   }
   if (maxId === null) {
     await storage.setItem('taskMaxId', 0);
+  }
+  if (completed == null) {
+    await storage.setItem('completedTasks', []);
   }
 }
 
@@ -59,12 +59,22 @@ const App: () => Node = () => {
         <Tab.Screen
           name={'Home'}
           component={TasksHomePage}
-          options={{ headerTitle: () => <MyHeader title={'Home'} /> }}
+          options={{
+            headerTitle: () => <MyHeader title={'Home'} />,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name='home' color={color} size={size} />
+            ),
+          }}
         />
         <Tab.Screen
           name={'Backlog'}
           component={BacklogPage}
-          options={{ headerTitle: () => <MyHeader title={'Backlog'} /> }}
+          options={{
+            headerTitle: () => <MyHeader title={'Backlog'} />,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name='text-box-multiple-outline' color={color} size={size} />
+            ),
+          }}
         />
       </Tab.Navigator>
     </NavigationContainer>

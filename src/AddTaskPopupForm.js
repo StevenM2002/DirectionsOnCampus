@@ -6,6 +6,7 @@ import storage from '../Storage';
 const AddTaskPopupForm = ({ setIsVisible }) => {
   const currInputs = {
     titleOfTask: '',
+    extraInfo: '',
   };
   const onSubmit = () => {
     (async () => {
@@ -19,7 +20,7 @@ const AddTaskPopupForm = ({ setIsVisible }) => {
           {
             id: maxId,
             title: currInputs.titleOfTask,
-            extraInfo: '',
+            extraInfo: currInputs.extraInfo,
           },
         ]);
         await storage.setItem('backlogTasks', [...backlog, maxId]);
@@ -32,16 +33,19 @@ const AddTaskPopupForm = ({ setIsVisible }) => {
   };
   return (
     <View style={styles.formContainer}>
-      <View style={styles.eachInputContainer}>
-        <MyTextInput
-          placeholderText={'Title of task'}
-          onTextInput={input => (currInputs.titleOfTask = input)}
-          givenStyles={styles.textInputStyle}
-        />
-      </View>
+      <MyTextInput
+        placeholderText={'Title of task'}
+        onTextInput={input => (currInputs.titleOfTask = input)}
+        givenStyles={styles.textInputStyle}
+      />
+      <MyTextInput
+        placeholderText={'Any extra information'}
+        onTextInput={input => (currInputs.extraInfo = input)}
+        givenStyles={[styles.textInputStyle, { paddingBottom: '20%' }]}
+      />
       <MyButton
         title={'Add To Backlog!'}
-        buttonStyle={{ borderWidth: 1 }}
+        buttonStyle={{ borderWidth: 1, marginTop: 30 }}
         onPress={onSubmit}
       />
     </View>
@@ -60,7 +64,6 @@ const styles = StyleSheet.create({
     minWidth: '100%',
     textAlign: 'left',
     paddingLeft: 10,
-    borderWidth: 1,
   },
 });
 
