@@ -1,12 +1,17 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-const SearchBar = ({ placeholderText, givenStyles }) => {
+const MyTextInput = ({
+  placeholderText,
+  givenStyles,
+  onTextInput = () => {},
+}) => {
   return (
     <View style={styles.searchBarContainer}>
       <TextInput
         style={[styles.textStyle, givenStyles]}
         placeholder={placeholderText}
+        onChangeText={onTextInput}
       />
     </View>
   );
@@ -26,10 +31,8 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
   },
   searchBarContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
+
   },
 });
 
-export default SearchBar;
+export default MyTextInput;
